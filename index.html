@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Your Page Title</title>
+</head>
+
+<body>
+    <header>
+        <h1>Your Page Header</h1>
+    </header>
+
+    <main>
+        <form id="textInputForm">
+            <label for="textInput">Paste Text:</label>
+            <textarea id="textInput" name="textInput" placeholder="Type or paste your text here..."></textarea>
+            <button type="submit">Submit</button>
+        </form>
+
+        <button type="button" id="copyButton" style="display: none;">Copy Line</button>
+
+        <div id="output"></div>
+    </main>
+
+    <footer>
+        <p>Your Footer Information</p>
+    </footer>
+
+    <script>
+        const lines = [];
+        let currentIndex = 0;
+
+        document.getElementById('textInputForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            handleText();
+        });
+
+        document.getElementById('copyButton').addEventListener('click', function () {
+            if (currentIndex < lines.length) {
+                copyToClipboard(lines[currentIndex]);
+                document.getElementById('copyButton').textContent = 'Copied';
+                currentIndex++;
+
+                // Reset button text after a delay (you can adjust the delay as needed)
+                setTimeout(function () {
+                    document.getElementById('copyButton').textContent = 'Copy Line';
+                }, 1000);
+            }
+        });
+
+        function handleText() {
+            const inputText = document.getElementById('textInput').value;
+            lines.length = 0;
+            currentIndex = 0;
+
+            inputText.split('\n').forEach((line) => {
+                lines.push(line);
+            });
+
+            // Display the copy button after lines are added
+            document.getElementById('copyButton').style.display = 'block';
+        }
+
+        function copyToClipboard(text) {
+            const dummyElement = document.createElement('textarea');
+            dummyElement.value = text;
+            document.body.appendChild(dummyElement);
+            dummyElement.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummyElement);
+        }
+    </script>
+</body>
+
+</html>
