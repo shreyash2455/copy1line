@@ -62,6 +62,9 @@
 
             // Display the copy button after lines are added
             document.getElementById('copyButton').style.display = 'block';
+            
+            // Display the links
+            displayLinks();
         }
 
         function copyToClipboard(text) {
@@ -71,6 +74,29 @@
             dummyElement.select();
             document.execCommand('copy');
             document.body.removeChild(dummyElement);
+        }
+
+        function displayLinks() {
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = ''; // Clear previous content
+            
+            lines.forEach((line, index) => {
+                const linkButton = document.createElement('button');
+                linkButton.textContent = 'Open Link';
+                linkButton.addEventListener('click', function () {
+                    openLinkInNewTab(line);
+                });
+
+                const lineContainer = document.createElement('div');
+                lineContainer.textContent = line;
+                lineContainer.appendChild(linkButton);
+
+                outputDiv.appendChild(lineContainer);
+            });
+        }
+
+        function openLinkInNewTab(link) {
+            window.open(link, '_blank');
         }
     </script>
 </body>
